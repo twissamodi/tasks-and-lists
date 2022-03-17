@@ -1,0 +1,30 @@
+.create-button-container{
+    background-color: #8027EA;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+.create-button{
+    font-size: 25px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}   
+.create-list-button{
+    margin-left:auto;
+    margin-right:30px;
+}
+.create-task-button{
+    margin-left:auto;
+    margin-right:25%;
+    margin-top: 5%;
+}
+.create-button:hover{
+    color: wheat;
+}
+.plus{
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+}

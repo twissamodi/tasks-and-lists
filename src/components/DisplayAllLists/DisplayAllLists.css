@@ -1,0 +1,36 @@
+.all-lists-container{
+    background-color: #D4C4E7;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    height: 100%;
+}
+.available-list-p-tag{
+    margin-top: 100px;
+    margin-left:5%;
+    font-size: 28px;
+}
+.unordered-list-names{
+    list-style:none;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    
+}
+.each-list-item{
+    flex-wrap: wrap;
+    flex-direction: row;
+    
+}
+.select-list-button{
+    width: 300px;
+    height: 150px;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.select-list-button:hover{
+    color: purple;
+}
+ 
