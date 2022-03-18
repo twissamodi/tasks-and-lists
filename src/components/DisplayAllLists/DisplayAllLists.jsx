@@ -1,5 +1,5 @@
-import './DisplayAllLists.css'
-import {useNavigate} from 'react-router-dom'
+import './DisplayAllLists.css';
+import {useNavigate} from 'react-router-dom';
 const DisplayAllLists=({allListsData,setAllListsData})=>{
     const navigate=useNavigate();
     return (

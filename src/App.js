@@ -2,10 +2,22 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import AllListDetails from './components/AllListDetails/AllListDetails';
 import AddOrEditItem from './components/AddOrEditItem/AddOrEditItem';
 import {MOCK_ALL_DETAILS} from "../src/Constants/MockData"
-import { useState } from "react";
-import DisplayTasksInList from './components/DisplayTasksInList/DisplayTasksInList'
+import { useEffect, useState } from "react";
+import DisplayTasksInList from './components/DisplayTasksInList/DisplayTasksInList';
+import {getAllLists} from './Constants/apiEndpoints';
+import makeRequest from './utils/makeRequest';
+import NotFound from './components/NotFound/NotFound';
+import './App.css'
 function App() {
-  const [allListsData,setAllListsData]=useState(MOCK_ALL_DETAILS);
+  const [allListsData,setAllListsData]=useState([]);
+  const [isInitialised,setIsInitialised]=useState(false);
+  useEffect(async ()=>{
+    if(!isInitialised){
+      const data=await makeRequest(getAllLists);
+      setAllListsData(data);
+      setIsInitialised(true);
+    }
+  },[isInitialised]);
   return (
     <div className="App">
     <BrowserRouter>
@@ -35,6 +47,10 @@ function App() {
         element={<AddOrEditItem action='Edit Task' allListsData={allListsData} setAllListsData={setAllListsData}/>}
       > 
       </Route> 
+      <Route 
+      path='/notFound'
+      element={<NotFound/>}
+      />
       </Routes>
     </BrowserRouter>
     </div>
