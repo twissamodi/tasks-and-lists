@@ -12,6 +12,7 @@ const AddOrEditItem=({allListsData,setAllListsData,action})=>{
     const [hasListBeenCreated,setHasListBeenCreated]=useState(false);
     const [hasTaskBeenCreated,setHasTaskBeenCreated]=useState(false);
     const [hasTaskBeenUpdated,setHasTaskBeenUpdated]=useState(false);
+    const [updatedListData,setUpdatedListData]=useState('');
     useEffect(()=>{
         if(action==='Edit Task' && !isPrevItemLoaded){
             const taskBeingEdited=allListsData.filter((eachList)=>eachList.listId===parseInt(listId))[0].tasks.filter((eachTask)=>eachTask.taskId===parseInt(taskId));
@@ -21,13 +22,16 @@ const AddOrEditItem=({allListsData,setAllListsData,action})=>{
         }
       
     },[isPrevItemLoaded]);
-    useEffect(async ()=>{
+    useEffect( ()=>{
         if(hasListBeenCreated){
-            await makeRequest(createList,{
-                listName:newItemTitle}
-            );
-            setHasListBeenCreated(false);
-            navigate('/lists');
+            makeRequest(createList,{
+                listName:newItemTitle
+            }
+            ).then(()=>{
+                setAllListsData(updatedListData);
+                setHasListBeenCreated(false);
+                navigate('/lists');
+            })
         }
     },[hasListBeenCreated])
 
@@ -36,6 +40,7 @@ const AddOrEditItem=({allListsData,setAllListsData,action})=>{
             makeRequest(createTask(listId),{
                 title:newItemTitle}
             ).then(()=>{
+                setAllListsData(updatedListData);
                 setHasTaskBeenCreated(false);
                 navigate(`/lists/${listId}`);
             })
@@ -49,11 +54,13 @@ const AddOrEditItem=({allListsData,setAllListsData,action})=>{
             makeRequest(updateTask(listId,taskId),{
                 title:newItemTitle}
             ).then(()=>{
+                setAllListsData(updatedListData);
                 setHasTaskBeenUpdated(false);
+                navigate(`/lists/${listId}`);
             })
         }
             
-    },[hasTaskBeenCreated])
+    },[hasTaskBeenUpdated])
 
     const createOrEditItem=(event)=>{
         setNewItemTitle(event.target.value);
@@ -72,18 +79,17 @@ const AddOrEditItem=({allListsData,setAllListsData,action})=>{
     
     const addTaskToListHandler=()=>{
         console.log(allListsData);
-        const updatedListsData=allListsData.map((eachList)=>{
+        setUpdatedListData(allListsData.map((eachList)=>{
             return eachList.listId!==parseInt(listId) ? eachList : {...eachList,tasks: [...eachList.tasks,{
                 title:newItemTitle,taskId:eachList.tasks.length+1
             }]
         }
-    })
-    setAllListsData(updatedListsData);
+    }));
     setHasTaskBeenCreated(true);
     }
 
     const updateTaskHandler=()=>{
-        const updatedListsData=allListsData.map((eachList)=>{
+        setUpdatedListData(allListsData.map((eachList)=>{
             return eachList.listId!==parseInt(listId) ? eachList : {...eachList,tasks:eachList.tasks.map((eachTask)=>{
                 return eachTask.taskId!==parseInt(taskId) ? eachTask : {
                     taskId:eachTask.taskId,
@@ -91,9 +97,7 @@ const AddOrEditItem=({allListsData,setAllListsData,action})=>{
                 }
             })
         }
-    })
-    setAllListsData(updatedListsData);
-    navigate(`/lists/${listId}`);
+    }));
     setHasTaskBeenUpdated(true);
     }
 

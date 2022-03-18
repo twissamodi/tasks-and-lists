@@ -15,7 +15,7 @@ const DisplayTasksInList=({setAllListsData,allListsData})=>{
     useEffect(()=>{
         if(!isInitialised && allListsData.length){
             setIsInitialised(true);
-            const derivedList =allListsData.filter(eachList=>eachList.listId===parseInt(listId))[0];
+            const derivedList = allListsData.filter(eachList=>eachList.listId===parseInt(listId))[0];
             if(derivedList){
                 makeRequest(getAllTasks(listId),{},navigate).then(data=>{derivedList['tasks']=data;
                 setSelectedList(derivedList);
@@ -25,7 +25,7 @@ const DisplayTasksInList=({setAllListsData,allListsData})=>{
                 navigate('/notFound');
             }
         }
-    },[isInitialised,allListsData,listId])
+    },[isInitialised,allListsData])
 
 
     return selectedList ? <div className='task-page-container'>
@@ -55,4 +55,3 @@ const DisplayTasksInList=({setAllListsData,allListsData})=>{
 } 
 
 export default DisplayTasksInList;
-//
